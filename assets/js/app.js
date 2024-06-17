@@ -1,9 +1,13 @@
 //Constantes de la API
+
+/*
+No se está poniendo el argumento de name en el query selector*/
 const baseEndpoint = 'https://api.github.com';
 const usersEndpoint = `${baseEndpoint}/users`;
-const $n = document.querySelector('name');
-const $b = document.querySelector('#blog');
-const $l = document.querySelector('.location');
+
+const n = document.querySelector('.name');
+const b = document.querySelector('.blog');
+const l = document.querySelector('#location');
 
 
 //Función para obtener los datos de un usuario
@@ -13,28 +17,26 @@ const $l = document.querySelector('.location');
 
 2. El segundo error que encontré fue que la función fetch no retorna un objeto JSON, sino una promesa que se resuelve en un objeto JSON. Por lo tanto, la variable data no está definida y no se puede acceder a sus propiedades.
 
-3. El tercer error que encontré fue que las comillas utilizadas en las variables $n, $b y $l no son las correctas. Deben ser backticks (`) para poder interpolar las variables.
+3. El tercer error que encontré fue que las comillas utilizadas en las variables n, b y l no son las correctas. Deben ser backticks (`) para poder interpolar las variables.
 */
 
 async function displayUser(username) {
   try {
-    $n.textContent = 'cargando...';
+    n.textContent = 'cargando...';
     const response = await fetch(`${usersEndpoint}/${username}`);
     //convertir el response en un objeto JSON
     const data = await response.json();
     console.log(data);
     //backticks para todos
-    $n.textContent = `${data.name}`;
-    $b.textContent = `${data.blog}`;
-    $l.textContent = `${data.location}`;
+    n.textContent = `${data.name}` || 'Desconocido';
+    b.textContent = `${data.blog}` || 'No tiene blog';
+    l.textContent = `${data.location}` || 'Desconocido';
   } catch (error) {
     console.log('OH NO!');
     console.log(err);
     n.textContent = `Algo salió mal: ${err}`;
   }
 }
-
-
 
 //Llamada a la función displayUser
 displayUser('stolinski');
